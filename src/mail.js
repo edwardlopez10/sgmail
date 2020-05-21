@@ -1,5 +1,5 @@
 'use strict';
-
+// Customized SG Mail component
 /**
  * Dependencies
  */

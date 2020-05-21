@@ -1,22 +1,13 @@
+import Client = require("@sendgrid/client");
 import {ClientResponse} from "@sendgrid/client/src/response";
 import {ResponseError} from "@sendgrid/helpers/classes";
-import {MailDataRequired} from "@sendgrid/helpers/classes/mail";
+import {MailData} from "@sendgrid/helpers/classes/mail";
 
 declare class MailService {
   /**
-   * SendGrid API key passthrough for convenience.
+   * API key pass through for convenience
    */
   setApiKey(apiKey: string): void;
-
-  /**
-   * Twilio Email Auth passthrough for convenience.
-   */
-  setTwilioEmailAuth(username: string, password: string): void;
-
-  /**
-   * Set the default request timeout (in milliseconds).
-   */
-  setTimeout(timeout: number): void;
 
   /**
    * Set substitution wrappers
@@ -26,22 +17,18 @@ declare class MailService {
   /**
    * Send email
    */
-  send(data: MailDataRequired, isMultiple?: boolean, cb?: (err: Error | ResponseError, result: [ClientResponse, {}]) => void): Promise<[ClientResponse, {}]>;
+  send(data: MailData, isMultiple?: boolean, cb?: (err: Error|ResponseError, result: [ClientResponse, {}]) => void): Promise<[ClientResponse, {}]>;
 
   /**
    * Send emails
    */
-  send(data: MailDataRequired[], isMultiple?: boolean, cb?: (err: Error | ResponseError, result: [ClientResponse, {}]) => void): Promise<[ClientResponse, {}]>;
+  send(data: MailData[], isMultiple?: boolean, cb?: (err: Error|ResponseError, result: [ClientResponse, {}]) => void): Promise<[ClientResponse, {}]>;
 
   /**
    * Send multiple emails (shortcut)
    */
-  sendMultiple(data: MailDataRequired, cb?: (error: Error | ResponseError, result: [ClientResponse, {}]) => void): Promise<[ClientResponse, {}]>;
+  sendMultiple(data: MailData, cb?: (error: Error|ResponseError, result: [ClientResponse, {}]) => void): Promise<[ClientResponse, {}]>;
 }
 
-declare const mail: MailService;
-// @ts-ignore
-export = mail;
-
-export {MailService};
-export {MailDataRequired};
+declare const mail: MailService & { MailService: MailService }
+export = mail
